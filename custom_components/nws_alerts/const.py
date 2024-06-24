@@ -55,7 +55,7 @@ NWS_ID_PREFIX = "urn:oid:2.49.0.1.840.0."
 
 # Misc
 ZONE_ID = ""
-VERSION = "2.7"
+VERSION = "v4.2.0"
 ISSUE_URL = "https://github.com/finity69x2/nws_alert"
 DOMAIN = "nws_alerts"
 PLATFORM = "sensor"
