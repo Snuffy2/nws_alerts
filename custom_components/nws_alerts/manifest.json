@@ -2,13 +2,13 @@
     "domain": "nws_alerts",
     "name": "NWS Alerts",
     "after_dependencies": ["notify", "persistent_notification", "mobile_app", "alexa_media", "google_assistant"],
-    "codeowners": ["@finity69x2"],
+    "codeowners": ["@Snuffy2"],
     "config_flow": true,
     "dependencies": ["sensor"],
-    "documentation": "https://github.com/finity69x2/nws_alerts/",
+    "documentation": "https://github.com/Snuffy2/nws_alerts/",
     "integration_type": "device",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/finity69x2/nws_alerts/issues",
+    "issue_tracker": "https://github.com/Snuffy2/nws_alerts/issues",
     "requirements": [],
     "version": "4.1"
   }
