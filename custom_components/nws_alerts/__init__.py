@@ -227,6 +227,7 @@ async def async_get_state(config, coords) -> dict:
         NWS_MESSAGE_TYPE: None,
         NWS_EVENT_STATUS: None,
         NWS_EVENT_SEVERITY: None,
+        NWS_EVENT_ONSET: None,
         NWS_EVENT_EXPIRES: None,
         NWS_DISPLAY_DESC: None,
         NWS_HEADLINE: None,
@@ -313,6 +314,7 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
         NWS_MESSAGE_TYPE: None,
         NWS_EVENT_STATUS: None,
         NWS_EVENT_SEVERITY: None,
+        NWS_EVENT_ONSET: None,
         NWS_EVENT_EXPIRES: None,
         NWS_DISPLAY_DESC: None,
         NWS_HEADLINE: None,
@@ -341,6 +343,7 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
         message_type = ""
         event_status = ""
         event_severity = ""
+        event_onset = ""
         event_expires = ""
         display_desc = ""
         spoken_desc = ""
@@ -381,6 +384,7 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
             certainty = _string_cleanup(
                 alert.get(NWS_PROPERTIES).get(NWS_CERTAINTY, None)
             )
+            onset = _string_cleanup(alert.get(NWS_PROPERTIES).get("onset", None))
             expires = _string_cleanup(alert.get(NWS_PROPERTIES).get("expires", None))
 
             if event != "":
@@ -391,14 +395,15 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
             if display_desc != "":
                 display_desc += "\n\n-\n\n"
 
-            display = (
-                "\n>\nHeadline: %s\nStatus: %s\nMessage Type: %s\nSeverity: %s\nCertainty: %s\nExpires: %s\nDescription: %s\n\nInstruction: %s"
+            display_desc += (
+                "\n>\nHeadline: %s\nStatus: %s\nMessage Type: %s\nSeverity: %s\nCertainty: %s\nOnset: %s\nExpires: %s\nDescription: %s\nInstruction: %s"
                 % (
                     headline,
                     status,
                     mtype,
                     severity,
                     certainty,
+                    onset,
                     expires,
                     description,
                     instruction,
@@ -426,6 +431,11 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
                 event_severity += " - "
             event_severity += severity
             alert_dict.update({NWS_EVENT_SEVERITY: severity})
+
+            if event_onset != "":
+                event_onset += " - "
+
+            event_onset += onset
 
             if event_expires != "":
                 event_expires += " - "
@@ -459,6 +469,7 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
             values[NWS_MESSAGE_TYPE] = message_type
             values[NWS_EVENT_STATUS] = event_status
             values[NWS_EVENT_SEVERITY] = event_severity
+            values[NWS_EVENT_ONSET] = event_onset
             values[NWS_EVENT_EXPIRES] = event_expires
             values[NWS_DISPLAY_DESC] = display_desc
             values[NWS_HEADLINE] = spoken_desc
