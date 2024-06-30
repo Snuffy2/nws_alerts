@@ -172,11 +172,17 @@ class AlertsDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Fetch data"""
         coords = None
+        array = []
         if CONF_TRACKER in self.config:
             coords = await self._get_tracker_gps()
         async with timeout(self.timeout):
             try:
                 array, data = await update_alerts(self.config, coords)
+            except AttributeError:
+                _LOGGER.debug(
+                    "Error fetching most recent data from NWS Alerts API; will continue trying"
+                )
+                data = "AttributeError"
             except Exception as error:
                 raise UpdateFailed(error) from error
             else:
