@@ -35,6 +35,7 @@ from .const import (
     NWS_EVENT_EXPIRES,
     NWS_EVENT_ID,
     NWS_EVENT_ID_SHORT,
+    NWS_EVENT_ONSET,
     NWS_EVENT_SEVERITY,
     NWS_EVENT_STATUS,
     NWS_HEADLINE,
@@ -395,7 +396,7 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
             if display_desc != "":
                 display_desc += "\n\n-\n\n"
 
-            display_desc += (
+            display = (
                 "\n>\nHeadline: %s\nStatus: %s\nMessage Type: %s\nSeverity: %s\nCertainty: %s\nOnset: %s\nExpires: %s\nDescription: %s\nInstruction: %s"
                 % (
                     headline,
@@ -434,8 +435,8 @@ async def async_get_alerts(zone_id: str = "", gps_loc: str = "") -> dict:
 
             if event_onset != "":
                 event_onset += " - "
-
             event_onset += onset
+            alert_dict.update({NWS_EVENT_ONSET: onset})
 
             if event_expires != "":
                 event_expires += " - "

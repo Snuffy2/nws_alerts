@@ -33,6 +33,7 @@ from .const import (
     NWS_EVENT,
     NWS_EVENT_EXPIRES,
     NWS_EVENT_ID_SHORT,
+    NWS_EVENT_ONSET,
     NWS_EVENT_SEVERITY,
     NWS_HEADLINE,
     NWS_HEADLINE_LONG,
@@ -171,7 +172,14 @@ class Send_NWSAlerts:
             and nwsalert.get(NWS_CERTAINTY, None) != "Unknown"
         ):
             message = (
-                message + f"### **Certainty**: {nwsalert.get(NWS_CERTAINTY, None)}\n\n"
+                message + f"### **Certainty**: {nwsalert.get(NWS_CERTAINTY, None)}\n"
+            )
+        if (
+            nwsalert.get(NWS_EVENT_ONSET, None) is not None
+            and nwsalert.get(NWS_EVENT_ONSET, None) != "Unknown"
+        ):
+            message = (
+                message + f"### **Onset**: {nwsalert.get(NWS_EVENT_ONSET, None)}\n\n"
             )
         if (
             nwsalert.get(NWS_DESCRIPTION, None) is not None
@@ -185,8 +193,13 @@ class Send_NWSAlerts:
             and nwsalert.get(NWS_INSTRUCTION, None) != "None"
         ):
             message = (
-                message + f"### Instruction\n{nwsalert.get(NWS_INSTRUCTION, None)}"
+                message + f"### Instruction\n{nwsalert.get(NWS_INSTRUCTION, None)}\n\n"
             )
+        if (
+            nwsalert.get(NWS_EVENT_EXPIRES, None) is not None
+            and nwsalert.get(NWS_EVENT_EXPIRES, None) != "Unknown"
+        ):
+            message = message + f"#### Expires: {nwsalert.get(NWS_EVENT_EXPIRES, None)}"
         await self._hass.services.async_call(
             "persistent_notification",
             "create",
