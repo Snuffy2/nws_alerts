@@ -19,14 +19,17 @@ jobs:
             echo "github.event.release.draft: ${{ github.event.release.draft }}"      
       - name: Update Version in Manifest
         if: ${{ github.event_name == 'release' && github.event.release.prerelease == false && github.event.release.draft == false }}
+        continue-on-error: true
         run: |
           sed -i 's/\"version\"\s*\:\s*\".*\"/\"version\"\:\"${{ github.ref_name }}\"/g' ./custom_components/nws_alerts/manifest.json
       - name: Update Version in const.py
         if: ${{ github.event_name == 'release' && github.event.release.prerelease == false && github.event.release.draft == false }}
+        continue-on-error: true
         run: |
           sed -i 's/VERSION \= \".*\"/VERSION \= \"${{ github.ref_name }}\"/' ./custom_components/nws_alerts/const.py
       - name: Commit & Push Version Changes
         if: ${{ github.event_name == 'release' && github.event.release.prerelease == false && github.event.release.draft == false }}
+        continue-on-error: true
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
