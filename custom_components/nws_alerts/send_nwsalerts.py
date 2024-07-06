@@ -181,7 +181,8 @@ class Send_NWSAlerts:
             and nwsalert.get(NWS_EVENT_ONSET, None) != "Unknown"
         ):
             message = (
-                message + f"### **Onset**: {nwsalert.get(NWS_EVENT_ONSET, None)}\n\n"
+                message
+                + f"### **Onset**: {nwsalert.get(NWS_EVENT_ONSET).strftime('%Y-%m-%d %H:%M')}\n\n"
             )
         if (
             nwsalert.get(NWS_DESCRIPTION, None) is not None
@@ -201,7 +202,10 @@ class Send_NWSAlerts:
             nwsalert.get(NWS_EVENT_EXPIRES, None) is not None
             and nwsalert.get(NWS_EVENT_EXPIRES, None) != "Unknown"
         ):
-            message = message + f"#### Expires: {nwsalert.get(NWS_EVENT_EXPIRES, None)}"
+            message = (
+                message
+                + f"#### Expires: {nwsalert.get(NWS_EVENT_EXPIRES).strftime('%Y-%m-%d %H:%M')}"
+            )
         await self._hass.services.async_call(
             "persistent_notification",
             "create",
